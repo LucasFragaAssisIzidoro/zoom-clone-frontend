@@ -7,6 +7,7 @@ import OnlyWithAudioCheckBox from "./OnlyWithAudioCheckBox";
 import RoomNotFoundMessage from "./RoomNotFoundMessage";
 import JoinRoomButtons from "./JoinRoomButtons";
 import {v4 as uuidv4} from 'uuid';
+import { checkIfRoomExists } from "../utils/twilioUtils";
 
 const JoinRoomContent = (props) => {
     const {isRoomHost, setConnectOnlyWithAudioAction, connectOnlyWithAudio, setRoomIdAction, setIdentityAction} = props;
@@ -17,7 +18,13 @@ const JoinRoomContent = (props) => {
     const handleJoinToRoom = async () => {
         setIdentityAction(nameValue);
         if(!isRoomHost){
-
+            const roomExists = await checkIfRoomExists(roomIdValue);
+            if(roomExists){
+                setRoomId(roomIdValue);
+                navigate('/room');
+            }else{
+                setShowRoomNotFoundMessage(true);
+            }
         }else{
             setRoomIdAction(uuidv4());
             navigate('/room')
