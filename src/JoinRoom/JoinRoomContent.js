@@ -1,18 +1,27 @@
 import React, { useState }from "react";
 import { connect } from "react-redux";
+import { useNavigate} from "react-router-dom";
 import JoinRoomInputs from "./JoinRoomInputs";
-import { setConnectOnlyWithAudio } from "../store/actions";
+import { setConnectOnlyWithAudio, setIdentity, setRoomId } from "../store/actions";
 import OnlyWithAudioCheckBox from "./OnlyWithAudioCheckBox";
 import RoomNotFoundMessage from "./RoomNotFoundMessage";
 import JoinRoomButtons from "./JoinRoomButtons";
+import {v4 as uuidv4} from 'uuid';
 
 const JoinRoomContent = (props) => {
-    const {isRoomHost, setConnectOnlyWithAudioAction, connectOnlyWithAudio} = props;
+    const {isRoomHost, setConnectOnlyWithAudioAction, connectOnlyWithAudio, setRoomIdAction, setIdentityAction} = props;
     const [roomIdValue, setRoomIdValue] = useState('');
     const [nameValue, setNameValue] = useState('');
     const [showRoomNotFoundMessage, setShowRoomNotFoundMessage] = useState(false);
-    const handleJoinToRoomm = () => {
-        //soon
+    const navigate = useNavigate();
+    const handleJoinToRoom = async () => {
+        setIdentityAction(nameValue);
+        if(!isRoomHost){
+
+        }else{
+            setRoomIdAction(uuidv4());
+            navigate('/room')
+        }
     }
 
     return (
@@ -32,7 +41,7 @@ const JoinRoomContent = (props) => {
 
             <JoinRoomButtons 
                 isRoomHost={isRoomHost}
-                handleJoinToRoom
+                handleJoinToRoom={handleJoinToRoom}
             />
         </>
     );
@@ -41,6 +50,8 @@ const JoinRoomContent = (props) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setConnectOnlyWithAudioAction: (onlyWithAudio) => dispatch(setConnectOnlyWithAudio(onlyWithAudio)),
+        setIdentityAction: (identity) => dispatch(setIdentity(identity)),
+        setRoomIdAction: (id) => dispatch(setRoomId(id))
 
     };
 };
