@@ -8,9 +8,10 @@ import RoomNotFoundMessage from "./RoomNotFoundMessage";
 import JoinRoomButtons from "./JoinRoomButtons";
 import {v4 as uuidv4} from 'uuid';
 import { checkIfRoomExists } from "../utils/twilioUtils";
+import LoadingOverlay from "./LoadingOverlay";
 
 const JoinRoomContent = (props) => {
-    const {isRoomHost, setConnectOnlyWithAudioAction, connectOnlyWithAudio, setRoomIdAction, setIdentityAction} = props;
+    const {isRoomHost, setConnectOnlyWithAudioAction, connectOnlyWithAudio, setRoomIdAction, setIdentityAction, setShowLoadingOverlay} = props;
     const [roomIdValue, setRoomIdValue] = useState('');
     const [nameValue, setNameValue] = useState('');
     const [showRoomNotFoundMessage, setShowRoomNotFoundMessage] = useState(false);
@@ -18,7 +19,9 @@ const JoinRoomContent = (props) => {
     const handleJoinToRoom = async () => {
         setIdentityAction(nameValue);
         if(!isRoomHost){
+            setShowLoadingOverlay(true);
             const roomExists = await checkIfRoomExists(roomIdValue);
+            setShowLoadingOverlay(false);
             if(roomExists){
                 setRoomId(roomIdValue);
                 navigate('/room');

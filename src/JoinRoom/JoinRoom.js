@@ -1,12 +1,13 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { connect } from "react-redux";
 import { setIsRoomHost } from "../store/actions";
 import { useLocation} from "react-router-dom";
 import JoinRoomTittle from "./JoinRoomTittle";
 import JoinRoomContent from "./JoinRoomContent"
-
+import LoadingOverlay from "./LoadingOverlay";
 
 import "./JoinRoom.css"
+
 
 const JoinRoom = (props) => {
 
@@ -21,12 +22,17 @@ const JoinRoom = (props) => {
         }
     }, []);
 
+    const [showLoadingOverlay, setShowLoadingOverlay] = useState(false)  
+
     return (
         <div className="join_room_page_container">
             <div className="join_room_page_panel">
                 <JoinRoomTittle isRoomHost={isRoomHost} />
-                <JoinRoomContent
-                 isRoomHost={isRoomHost} />
+                <JoinRoomContent 
+                    isRoomHost={isRoomHost} 
+                    setShowLoadingOverlay={setShowLoadingOverlay}
+                />
+                {showLoadingOverlay && <LoadingOverlay />}
             </div>
         </div>
     );
