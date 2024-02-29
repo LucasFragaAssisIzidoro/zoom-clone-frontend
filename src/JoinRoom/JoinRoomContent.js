@@ -23,7 +23,7 @@ const JoinRoomContent = (props) => {
             const roomExists = await checkIfRoomExists(roomIdValue);
             setShowLoadingOverlay(false);
             if(roomExists){
-                setRoomId(roomIdValue);
+                setRoomIdAction(roomIdValue);
                 navigate('/room');
             }else{
                 setShowRoomNotFoundMessage(true);
