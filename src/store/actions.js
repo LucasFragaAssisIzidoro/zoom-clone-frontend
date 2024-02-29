@@ -4,7 +4,8 @@ const Actions = {
     SET_CONNECT_ONLY_WITH_AUDIO : 'SET_CONNECT_ONLY_WITH_AUDIO',
     SET_ROOM_ID : 'SET_ROOM_ID',
     SET_TWILIO_ACCESS_TOKEN : 'SET_TWILIO_ACCESS_TOKEN',
-    SET_SHOW_OVERLAY : 'SET_SHOW_OVERLAY'
+    SET_SHOW_OVERLAY : 'SET_SHOW_OVERLAY',
+    SET_PARTIPANTS: 'SET_PARTICIPANTS'
 };
 
 export const setIdentity = (identity) => {
@@ -48,4 +49,12 @@ export const setShowOverlay = (showOverlay) => {
         showOverlay,
     };
 };
+
+export const setParticipants = (participants) => {
+    return {
+        type: Actions.SET_PARTIPANTS,
+        participants,
+    };
+};
+
 export default Actions;
